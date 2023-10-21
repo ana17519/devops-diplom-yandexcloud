@@ -1,3 +1,5 @@
+**Облачная инфраструктура**
+
 Последовательность:
 
 ```
@@ -32,3 +34,7 @@ terraform apply:
 terraform destroy:
 ```
 ![img_1.png](pics/img_3.png)
+
+vm:
+
+![img.png](pics/img_5.png)
