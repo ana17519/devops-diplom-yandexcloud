@@ -11,21 +11,21 @@ resource "yandex_vpc_network" "net" {
 resource "yandex_vpc_subnet" "subnet_a" {
   name           = "subnet_a"
   network_id     = yandex_vpc_network.net.id
-  v4_cidr_blocks = ["10.129.0.0/24"]
+  v4_cidr_blocks = ["10.128.0.0/24"]
   zone           = var.yc_zone
 }
 
 resource "yandex_vpc_subnet" "subnet_b" {
   name           = "subnet_b"
   network_id     = yandex_vpc_network.net.id
-  v4_cidr_blocks = ["10.130.0.0/24"]
+  v4_cidr_blocks = ["10.127.0.0/24"]
   zone           = "ru-central1-b"
 }
 
 resource "yandex_vpc_subnet" "subnet_c" {
   name           = "subnet_c"
   network_id     = yandex_vpc_network.net.id
-  v4_cidr_blocks = ["10.131.0.0/24"]
+  v4_cidr_blocks = ["10.126.0.0/24"]
   zone           = "ru-central1-c"
 }
 //Intel Ice Lake 2vCPU, fraction 20%, 2 Ram, 8Gb hdd, preemtible, public IP
