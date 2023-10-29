@@ -34,7 +34,9 @@
 
 
 
-Последовательность:
+**Шаги:**
+
+**1. Задеплоить в кластер prometheus, grafana, alertmanager, экспортер основных метрик Kubernetes**
 
 репозиторий Prometheus для Helm и обновить список доступных пакетов:
 
@@ -97,4 +99,22 @@ URL Prometheus: `http://kube-prometheus-stack-prometheus.monitoring.svc:9090` и
 ![img_22.png](pics/img_22.png)
 ![img_23.png](pics/img_23.png)
 ![img_1.png](pics/img_1.png)
+
+**2. Задеплоить тестовое приложение, например, 
+nginx сервер отдающий статическую страницу.**
+
+[манифест](monitoring/app.yaml) 
+
+```
+kubectl create ns app
+kubectl apply -f app.yaml -n app
+kubectl get deployments -n app
+kubectl get pods -n app -o wide
+kubectl get svc -n app
+yc compute instance list
+curl 158.160.126.34:30001
+```
+
+![img.png](pics/img_2.png)
+![img_1.png](pics/img_3.png)
 
