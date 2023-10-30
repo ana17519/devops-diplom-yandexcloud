@@ -118,3 +118,5 @@ curl 158.160.126.34:30001
 ![img.png](pics/img_2.png)
 ![img_1.png](pics/img_3.png)
 
+3. настройка автоматического запуска и применения конфигурации Terraform из GitHub 
+репозитория в GitLab CI/CD при коммите в Yandex Cloud

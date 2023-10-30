@@ -5,8 +5,11 @@ stages:
 plan:
   stage: plan
   script:
-    - cd terraform & terraform init
-    - terraform plan -out=tf.plan
+    - echo "$YC_TOKEN" | yandex-cloud auth login --yc-token
+    - git clone https://github.com/ana17519/devops-diplom-yandexcloud.git
+    - cd terraform
+    - terraform init
+    - terraform plan -out=tf.plan -var yc_cloud_id=$YC_CLOUD_ID -var yc_token=$YC_TOKEN -var yc_folder_id=$YC_FOLDER_ID
   artifacts:
     paths:
       - tf.plan
@@ -15,4 +18,10 @@ apply:
   stage: apply
   when: manual
   script:
-    - terraform apply tf.plan
+    - echo "$YC_TOKEN" | yandex-cloud auth login --yc-token
+    - git clone https://github.com/ana17519/devops-diplom-yandexcloud.git
+    - cd terraform
+    - terraform init
+    - terraform apply tf.plan -var yc_cloud_id=$YC_CLOUD_ID -var yc_token=$YC_TOKEN -var yc_folder_id=$YC_FOLDER_ID
+  only:
+    - main
