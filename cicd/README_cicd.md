@@ -110,7 +110,7 @@ variables:
 
 ![img_21.png](pics/img_21.png)
 
-![img_25.png](pics/img_25.png)
+![img.png](pics/img26.png)
 
 [репозиторий](https://github.com/ana17519/nginx-test-app)
 
