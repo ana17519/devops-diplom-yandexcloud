@@ -58,7 +58,9 @@
 Это можно сделать двумя способами:
 
 1. Рекомендуемый вариант: самостоятельная установка Kubernetes кластера.  
-   а. При помощи Terraform подготовить как минимум 3 виртуальных машины Compute Cloud для создания Kubernetes-кластера. Тип виртуальной машины следует выбрать самостоятельно с учётом требовании к производительности и стоимости. Если в дальнейшем поймете, что необходимо сменить тип инстанса, используйте Terraform для внесения изменений.  
+   а. При помощи Terraform подготовить как минимум 3 виртуальных машины Compute Cloud для создания Kubernetes-кластера. 
+Тип виртуальной машины следует выбрать самостоятельно с учётом требовании к производительности и стоимости. 
+Если в дальнейшем поймете, что необходимо сменить тип инстанса, используйте Terraform для внесения изменений.  
    б. Подготовить [ansible](https://www.ansible.com/) конфигурации, можно воспользоваться, например [Kubespray](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/)  
    в. Задеплоить Kubernetes на подготовленные ранее инстансы, в случае нехватки каких-либо ресурсов вы всегда можете создать их при помощи Terraform.
 2. Альтернативный вариант: воспользуйтесь сервисом [Yandex Managed Service for Kubernetes](https://cloud.yandex.ru/services/managed-kubernetes)  
@@ -87,7 +89,8 @@
 Ожидаемый результат:
 
 1. Git репозиторий с тестовым приложением и Dockerfile.
-2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или [Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform.
+2. Регистри с собранным docker image. В качестве регистри может быть DockerHub или
+[Yandex Container Registry](https://cloud.yandex.ru/services/container-registry), созданный также с помощью terraform.
 
 ---
 ### Подготовка cистемы мониторинга и деплой приложения
@@ -102,7 +105,10 @@
 Способ выполнения:
 1. Воспользовать пакетом [kube-prometheus](https://github.com/prometheus-operator/kube-prometheus), который уже включает в себя [Kubernetes оператор](https://operatorhub.io/) для [grafana](https://grafana.com/), [prometheus](https://prometheus.io/), [alertmanager](https://github.com/prometheus/alertmanager) и [node_exporter](https://github.com/prometheus/node_exporter). При желании можете собрать все эти приложения отдельно.
 2. Для организации конфигурации использовать [qbec](https://qbec.io/), основанный на [jsonnet](https://jsonnet.org/). Обратите внимание на имеющиеся функции для интеграции helm конфигов и [helm charts](https://helm.sh/)
-3. Если на первом этапе вы не воспользовались [Terraform Cloud](https://app.terraform.io/), то задеплойте и настройте в кластере [atlantis](https://www.runatlantis.io/) для отслеживания изменений инфраструктуры. Альтернативный вариант 3 задания: вместо Terraform Cloud или atlantis настройте на автоматический запуск и применение конфигурации terraform из вашего git-репозитория в выбранной вами CI-CD системе при любом комите.
+3. Если на первом этапе вы не воспользовались [Terraform Cloud](https://app.terraform.io/), 
+то задеплойте и настройте в кластере [atlantis](https://www.runatlantis.io/) для отслеживания изменений 
+инфраструктуры. Альтернативный вариант 3 задания: вместо Terraform Cloud или atlantis 
+настройте на автоматический запуск и применение конфигурации terraform из вашего git-репозитория в выбранной вами CI-CD системе при любом комите.
 
 Ожидаемый результат:
 1. Git репозиторий с конфигурационными файлами для настройки Kubernetes.
@@ -120,13 +126,17 @@
 1. Автоматическая сборка docker образа при коммите в репозиторий с тестовым приложением.
 2. Автоматический деплой нового docker образа.
 
-Можно использовать [teamcity](https://www.jetbrains.com/ru-ru/teamcity/), [jenkins](https://www.jenkins.io/), [GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/) или GitHub Actions.
+Можно использовать [teamcity](https://www.jetbrains.com/ru-ru/teamcity/), 
+[jenkins](https://www.jenkins.io/), 
+[GitLab CI](https://about.gitlab.com/stages-devops-lifecycle/continuous-integration/) 
+или GitHub Actions.
 
 Ожидаемый результат:
 
 1. Интерфейс ci/cd сервиса доступен по http.
 2. При любом коммите в репозиторие с тестовым приложением происходит сборка и отправка в регистр Docker образа.
-3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
+3. При создании тега (например, v1.0.0) происходит сборка и отправка с соответствующим 
+label в регистри, а также деплой соответствующего Docker образа в кластер Kubernetes.
 
 ---
 ## Что необходимо для сдачи задания?
@@ -139,3 +149,66 @@
 6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
 7. Все репозитории рекомендуется хранить на одном ресурсе (github, gitlab)
 
+# **Результат:**
+
+По всем 5 этапам были созданы пакеты, в каждом из которых файл READ_ME с шагами и скриншотами по выполнению:
+
+* [Создание облачной инфраструктуры](terraform) ([READ_ME](terraform/README_terraform.md))
+* [Создание Kubernetes кластера](k8s) ([READ_ME](k8s/README_k8s.md))
+* [Создание тестового приложения](testApp) ([READ_ME](testApp/README_app.md))
+* [Подготовка cистемы мониторинга и деплой приложения](monitoring) ([READ_ME](monitoring/README_monitoring.md))
+* [Установка и настройка CI/CD](cicd) ([READ_ME](cicd/README_cicd.md))
+
+1. Репозиторий с конфигурационными файлами Terraform и готовность продемонстрировать создание всех ресурсов с нуля.
+
+* [README_terraform](terraform/README_terraform.md)
+* https://github.com/ana17519/devops-diplom-yandexcloud/tree/main/terraform - начальное выполнение
+* https://gitlab.com/Ana17519/devops-diplom/-/tree/main/terraform - gitlab
+
+2. Пример pull request с комментариями созданными atlantis'ом или снимки экрана из Terraform Cloud или вашего CI-CD-terraform pipeline.
+
+описание и результаты в пункте 3 (настройка автоматического запуска и применения конфигурации Terraform из GitHub репозитория в GitLab CI/CD при коммите в Yandex Cloud)
+[файла](monitoring/README_monitoring.md)
+[.gitlab-ci.yml](https://gitlab.com/Ana17519/devops-diplom/-/blob/main/.gitlab-ci.yml)
+
+![img.png](monitoring/pics/img_10.png)
+
+[pipeline](https://gitlab.com/Ana17519/devops-diplom/-/pipelines/1063368041)
+
+![img_1.png](monitoring/pics/img_11.png)
+
+[plan](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5475235157)
+
+![img_2.png](monitoring/pics/img_12.png)
+
+[apply](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5475235158)
+
+![img_3.png](monitoring/pics/img_13.png)
+
+3. Репозиторий с конфигурацией ansible, если был выбран способ создания Kubernetes кластера при помощи ansible.
+
+[по созданию кластера, используя kubeadm](k8s/README_k8s.md)
+
+4. Репозиторий с Dockerfile тестового приложения и ссылка на собранный docker image.
+
+Git репозиторий с тестовым приложением и Dockerfile: [https://github.com/ana17519/nginx-test-app](https://github.com/ana17519/nginx-test-app)
+
+5. Репозиторий с конфигурацией Kubernetes кластера.
+
+[подробно по созданию кластера](k8s/README_k8s.md)
+
+6. Ссылка на тестовое приложение и веб интерфейс Grafana с данными доступа.
+
+деалой тестового приложения а [шаге 2](monitoring/README_monitoring.md)
+
+![img_1.png](monitoring/pics/img_3.png)
+
+
+Регистри с собранным docker image: [https://hub.docker.com/repository/docker/asukhadola/test/general](https://hub.docker.com/repository/docker/asukhadola/test/general)
+
+grafana я поднимала локально:
+ 
+подробно в [шаге 1](monitoring/README_monitoring.md) (Задеплоить в кластер prometheus, 
+grafana, alertmanager, экспортер основных метрик Kubernetes), там же все скриншоты
+
+![img_1.png](monitoring/pics/img_1.png)

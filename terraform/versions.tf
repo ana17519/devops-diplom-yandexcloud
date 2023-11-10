@@ -5,25 +5,22 @@ terraform {
     }
   }
   required_version = ">= 0.13"
+
+    backend "s3" {
+    endpoint   = "storage.yandexcloud.net"
+    bucket     =  "asuhodola-ie7h"
+    region     = "ru-central1-a"
+    key        = "main-infra/terraform.tfstate"
+    access_key = "YCAJEb_yGszI67YxlnKuVcrWv"
+    secret_key = "YCMOSkHvfbTEFkntLlyacBTPwq0-zG8bTqlfs8X8"
+
+    skip_region_validation      = true
+    skip_credentials_validation = true
+  }
 }
 
 // Creating a static access key
 resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
-  service_account_id = "aje4ofq2hpt96gqf6s7k"
+  service_account_id = var.yc_service_account
   description        = "static access key for object storage"
 }
-
-# random-string
-resource "random_string" "random" {
-  length              = 4
-  special             = false
-  upper               = false
-}
-//https://cloud.yandex.ru/docs/storage/operations/objects/edit-acl
-resource "yandex_storage_bucket" "test" {
-  access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
-  secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
-  bucket     = "asuhodola-${random_string.random.result}"
-  acl = "public-read"
-}
-

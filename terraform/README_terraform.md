@@ -29,12 +29,12 @@ terraform init
 terraform apply:
 ```
 ![img_1.png](pics/img_1.png)
-![img.png](pics/img_4.png)
-```
-terraform destroy:
-```
-![img_1.png](pics/img_3.png)
 
 vm:
 
 ![img.png](pics/img_5.png)
+
+```
+terraform destroy:
+```
+![img_1.png](pics/img_3.png)

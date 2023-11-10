@@ -1,5 +1,28 @@
 **Kubernetes кластер**
 
+**Создание Kubernetes кластера**
+
+На этом этапе необходимо создать [Kubernetes](https://kubernetes.io/ru/docs/concepts/overview/what-is-kubernetes/) кластер на базе предварительно созданной инфраструктуры.   Требуется обеспечить доступ к ресурсам из Интернета.
+
+Это можно сделать двумя способами:
+
+1. Рекомендуемый вариант: самостоятельная установка Kubernetes кластера.  
+   а. При помощи Terraform подготовить как минимум 3 виртуальных машины Compute Cloud для создания Kubernetes-кластера. 
+Тип виртуальной машины следует выбрать самостоятельно с учётом требовании к производительности и стоимости. 
+Если в дальнейшем поймете, что необходимо сменить тип инстанса, используйте Terraform для внесения изменений.  
+   б. Подготовить [ansible](https://www.ansible.com/) конфигурации, можно воспользоваться, например [Kubespray](https://kubernetes.io/docs/setup/production-environment/tools/kubespray/)  
+   в. Задеплоить Kubernetes на подготовленные ранее инстансы, в случае нехватки каких-либо ресурсов вы всегда можете создать их при помощи Terraform.
+2. Альтернативный вариант: воспользуйтесь сервисом [Yandex Managed Service for Kubernetes](https://cloud.yandex.ru/services/managed-kubernetes)  
+  а. С помощью terraform resource для [kubernetes](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/kubernetes_cluster) создать **региональный** мастер kubernetes с размещением нод в разных 3 подсетях      
+  б. С помощью terraform resource для [kubernetes node group](https://registry.terraform.io/providers/yandex-cloud/yandex/latest/docs/resources/kubernetes_node_group)
+  
+Ожидаемый результат:
+
+1. Работоспособный Kubernetes кластер.
+2. В файле `~/.kube/config` находятся данные для доступа к кластеру.
+3. Команда `kubectl get pods --all-namespaces` отрабатывает без ошибок.
+
+
 Последовательность:
 
 ```
@@ -57,6 +80,7 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=$HOME/.kube/config
 kubectl get nodes
 ```
+
 ![img_5.png](pics/img_5.png)
 
 ```
@@ -67,11 +91,13 @@ kubectl cluster-info
 ![img_6.png](pics/img_6.png)
 
 обновить ip адрес в конфиг-файле, указав внешний ip виртуальной машины (master):
+
 ```
 sudo nano ~/.kube/config
 sudo cat ~/.kube/config
 ```
 скопировать конфиг на локальную машину:
+
 ```
  scp ubuntu@51.250.90.227:/home/ubuntu/.kube/config ~/.kube
  cat ~/.kube/config

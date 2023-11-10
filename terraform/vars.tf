@@ -17,19 +17,8 @@ variable "yc_zone" {
   type = string
   default = "ru-central1-a"
 }
-locals {
-  virtual_machines = {
-    stage = {
-      "vm1" : 1,
-      "vm2" : 1,
-    },
-    prod = {
-      "vm3" : 1,
-      "vm4" : 1,
-    }
-  }
 
-  count = {
-    stage = 1
-  }
+variable "yc_service_account" {
+  type = string
+  default = ""
 }

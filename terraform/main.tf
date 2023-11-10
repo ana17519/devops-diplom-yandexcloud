@@ -7,6 +7,15 @@ provider "yandex" {
 resource "yandex_vpc_network" "net" {
   name = "net"
 }
+resource "yandex_vpc_subnet" "subnet" {
+  count        = 3
+  network_id     = yandex_vpc_network.net.id
+  zone           = var.yc_zone
+  name         = "subnet-${count.index}"
+  v4_cidr_blocks = [
+    "10.${count.index+130}.0.0/24"
+  ]
+}
 
 resource "yandex_vpc_subnet" "subnet_a" {
   name           = "subnet_a"
@@ -39,6 +48,7 @@ resource "yandex_compute_instance" "vm" {
   allow_stopping_for_update = true
   platform_id               = "standard-v3"
   zone                      = var.yc_zone
+  network_interface_ids = [yandex_vpc_network.net.for_each]
 
   resources {
     cores  = "2"
@@ -54,12 +64,12 @@ resource "yandex_compute_instance" "vm" {
   }
 
   network_interface {
-    subnet_id = yandex_vpc_subnet.subnet_a.id
+    subnet_id = yandex_vpc_subnet.subnet[count.index].id
     nat       = true
   }
 
   metadata = {
-     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+     ssh-keys = "ubuntu:${file("id_rsa.pub")}"
   }
 
   scheduling_policy {

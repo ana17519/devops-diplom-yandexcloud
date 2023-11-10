@@ -7,13 +7,15 @@
 
 Цель:
 
-1. **Задеплоить в кластер prometheus, grafana, alertmanager, экспортер основных метрик Kubernetes.**
+1. **Задеплоить в кластер prometheus, grafana, alertmanager, 
+экспортер основных метрик Kubernetes.**
 2. **Задеплоить тестовое приложение, например, nginx сервер отдающий статическую страницу.**
 
 Способ выполнения:
 
-Воспользовать пакетом kube-prometheus, 
-который уже включает в себя Kubernetes оператор для grafana, prometheus, alertmanager и node_exporter. 
+Воспользоваться пакетом kube-prometheus, 
+который уже включает в себя Kubernetes оператор для grafana, prometheus, 
+alertmanager и node_exporter. 
 
 Для организации конфигурации использовать qbec, основанный на jsonnet. 
 
@@ -103,7 +105,7 @@ URL Prometheus: `http://kube-prometheus-stack-prometheus.monitoring.svc:9090` и
 **2. Задеплоить тестовое приложение, например, 
 nginx сервер отдающий статическую страницу.**
 
-[манифест](monitoring/app.yaml) 
+[манифест](app.yaml) 
 
 ```
 kubectl create ns app
@@ -118,5 +120,60 @@ curl 158.160.126.34:30001
 ![img.png](pics/img_2.png)
 ![img_1.png](pics/img_3.png)
 
-3. настройка автоматического запуска и применения конфигурации Terraform из GitHub 
-репозитория в GitLab CI/CD при коммите в Yandex Cloud
+**3. настройка автоматического запуска и применения конфигурации Terraform из GitHub 
+репозитория в GitLab CI/CD при коммите в Yandex Cloud**
+
+Импортировать репозиторий из github в GitLab CI/CD, далее создать GitLab Runner:
+
+вм в `yandex cloud`:
+
+![img.png](pics/img_5.png)
+
+зависимости, необходимые для установки GitLab Runner:
+
+```
+ssh ubuntu@158.160.43.142
+sudo apt update
+sudo apt install -y curl
+curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+sudo apt-get install gitlab-runner=15.5.0
+sudo gitlab-runner start
+sudo gitlab-runner register
+```
+![img_1.png](pics/img_9.png)
+
+token взять в runners:
+
+![img_2.png](pics/img_8.png)
+![img_3.png](pics/img_7.png)
+
+добавить в переменные проекта, значения взяв из `yc config list`:
+
+![img_4.png](pics/img_6.png)
+
+Результат:
+
+[.gitlab-ci.yml](https://gitlab.com/Ana17519/devops-diplom/-/blob/main/.gitlab-ci.yml)
+
+![img.png](pics/img_10.png)
+
+[pipeline](https://gitlab.com/Ana17519/devops-diplom/-/pipelines/1063368041)
+
+![img_1.png](pics/img_11.png)
+
+[plan](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5475235157)
+
+![img_2.png](pics/img_12.png)
+
+[apply](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5475235158)
+
+![img_3.png](pics/img_13.png)
+
+в целях проверки в репозитории [склонированный репозиторий с gitlab ci](https://gitlab.com/Ana17519/devops-diplom/-/blob/main/.gitlab-ci.yml) 
+обновила сеть и подсети, чтоб создались новые виртуалки (на скриншоте остановлены):
+
+![img.png](pics/img14.png)
+
+[репозиторий](https://github.com/ana17519/devops-diplom-yandexcloud/tree/main/terraform)
+
+[склонированный репозиторий с gitlab ci](https://gitlab.com/Ana17519/devops-diplom/-/blob/main/.gitlab-ci.yml) - не последняя версия
