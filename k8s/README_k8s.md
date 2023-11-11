@@ -90,6 +90,21 @@ kubectl cluster-info
 
 ![img_6.png](pics/img_6.png)
 
+```
+kubectl -n kube-system get configmap kubeadm-config -o jsonpath='{.data.ClusterConfiguration}' > kubeadm.yaml
+
+apiServer:
+  certSANs:
+  - внешний IP виртульной машины
+
+mv /etc/kubernetes/pki/apiserver.{crt,key} ~
+
+kubeadm init phase certs apiserver --config kubeadm.yaml
+```
+
+![img_1.png](pics/img_11.png)
+![img.png](pics/img10.png)
+
 обновить ip адрес в конфиг-файле, указав внешний ip виртуальной машины (master):
 
 ```
