@@ -111,12 +111,15 @@ kubeadm init phase certs apiserver --config kubeadm.yaml
 sudo nano ~/.kube/config
 sudo cat ~/.kube/config
 ```
+
+![img.png](pics/img_12.png)
+
 скопировать конфиг на локальную машину:
 
 ```
- scp ubuntu@51.250.90.227:/home/ubuntu/.kube/config ~/.kube
+ scp ubuntu@158.160.112.173:/home/ubuntu/.kube/config ~/.kube
  cat ~/.kube/config
 ```
 
 ![img.png](pics/img_8.png)
-
+![img_1.png](pics/img_13.png)
