@@ -38,3 +38,9 @@ vm:
 terraform destroy:
 ```
 ![img_1.png](pics/img_3.png)
+
+Файлы:
+
+* [vars.tf](vars.tf)
+* [main.tf](main.tf)
+* [versions.tf](versions.tf)
