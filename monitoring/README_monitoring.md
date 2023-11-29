@@ -151,11 +151,17 @@ token взять в runners:
 
 ![img_4.png](pics/img_6.png)
 
+![img.png](pics/img_30.png)
+
 Результат:
 
 [.gitlab-ci.yml](https://gitlab.com/Ana17519/devops-diplom/-/blob/main/.gitlab-ci.yml)
 
 ![img.png](pics/img_10.png)
+
+удалены значений access_key и secret_key из main.tf:
+
+![img.png](pics/img_28.png)
 
 [pipeline](https://gitlab.com/Ana17519/devops-diplom/-/pipelines/1063368041)
 
@@ -164,6 +170,11 @@ token взять в runners:
 [plan](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5475235157)
 
 ![img_2.png](pics/img_12.png)
+
+после удаления значений access_key и secret_key из main.tf успешный plan: [plan](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5640205937)
+
+![img_1.png](pics/img_29.png)
+
 
 [apply](https://gitlab.com/Ana17519/devops-diplom/-/jobs/5475235158)
 
