@@ -6,6 +6,9 @@
 export YC_TOKEN=$(yc iam create-token)
 export YC_CLOUD_ID=$(yc config get cloud-id)
 export YC_FOLDER_ID=$(yc config get folder-id)
+
+export ACCESS_KEY=""
+export SECRET_KEY=""
 ```
 
 сервисный аккаунт:
@@ -20,9 +23,12 @@ yc resource-manager folder add-access-binding default \
 
 ![img.png](pics/img.png)
 
+terraform init c указанием [backend-config](https://cloud.yandex.ru/docs/tutorials/infrastructure-management/terraform-state-storage#create-service-account): 
+
+```     
+terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
 ```
-terraform init
-```
+
 ![img_2.png](pics/img_2.png)
 
 ```
