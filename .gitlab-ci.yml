@@ -13,15 +13,18 @@ variables:
   YC_SERVICE_ACCOUNT: $YC_SERVICE_ACCOUNT
   # YC_FOLDER_ID: $YC_FOLDER_ID
   SERVICE_ACCOUNT_KEY: $SERVICE_ACCOUNT_KEY
+  ACCESS_KEY: $ACCESS_KEY
+  SECRET_KEY: $SECRET_KEY
 
 plan:
   stage: plan
   before_script:
     - cd terraform
-    - terraform init
+    # - terraform init
+    - terraform init -backend-config="access_key=$ACCESS_KEY" -backend-config="secret_key=$SECRET_KEY"
     # - terraform state list
     # - terraform state rm yandex_storage_bucket.test
-    - terraform state pull
+    # - terraform state pull
   script:
     - terraform plan -out="tf.plan" -var 'yc_folder_id=$YC_FOLDER_ID' -var 'yc_id=$YC_CLOUD_ID' -var 'yc_service_account=$YC_SERVICE_ACCOUNT'
   artifacts:
